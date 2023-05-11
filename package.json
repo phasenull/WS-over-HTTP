@@ -4,6 +4,6 @@
     "ws": "^8.13.0"
   },
   "scripts": {
-    "start": "nodemon js/Mirror.js"
+    "start": "nodemon js/App.js"
   }
 }

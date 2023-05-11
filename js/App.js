@@ -1,11 +1,11 @@
 const express = require("express")
-const Client = require("./classes/Client.js").Client
+const Client = require("./classes/Connection.js").Client
 const app = express()
 const CONNECTIONS = {}
 
 app.get("/connect", (req, res) => {
 	// generate secret key with encryption
-	const new_connection = new Client("ws://localhost:8080")
+	const new_connection = new Client(req.query.url,req.headers)
 	CONNECTIONS[new_connection.uuid] = new_connection
 	// const key = crypto.subtle.generateKey({ name: "AES-GCM", length: 256 }, true, ["encrypt", "decrypt"])
 	// const iv = crypto.getRandomValues(new Uint8Array(12))
@@ -29,6 +29,18 @@ app.post("/ws", (req, res) => {
 		res.status(404).send("Not found")
 	}
 })
+app.get("/js", (req, res) => {
+	res.sendFile(__dirname +"/frontend_testing.js")
+})
+
+app.get("/testing",(req,res)=>{
+	res.send('<div id = "main"></div> <script src = "./js"></script>')
+})
+
 app.listen(80, () => {
 	console.log("App listening")
+})
+
+app.get("/testing_websocket", (req, res) => {
+	res.redirect("ws://localhost:1453")
 })
