@@ -41,7 +41,7 @@ class Connection {
 		})
 	}
 	onopen(e) {
-		this.send("initial")
+		this.send("open")
 		console.log("WS Open")
 	}
 }
