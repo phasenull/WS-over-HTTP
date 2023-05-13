@@ -10,8 +10,6 @@ wss.on("connection", (ws,req) => {
 	})
 	ws.on("message", (e) => {
 		console.log("message %s",e)
-		connections.forEach(remote_ws => {
-			remote_ws["ws"].send(`${remote_ws["ip"]} ${e}`)
-		});
+		ws.send(`${e}`)
 	})
 })

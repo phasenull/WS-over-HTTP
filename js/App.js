@@ -29,18 +29,18 @@ app.post("/ws", (req, res) => {
 		res.status(404).send("Not found")
 	}
 })
-app.get("/js", (req, res) => {
-	res.sendFile(__dirname +"/frontend_testing.js")
-})
+// app.get("/js", (req, res) => {
+// 	res.sendFile(__dirname +"/frontend_testing.js")
+// })
 
-app.get("/testing",(req,res)=>{
-	res.send('<div id = "main"></div> <script src = "./js"></script>')
-})
+// app.get("/testing",(req,res)=>{
+// 	res.send('<div id = "main"></div> <script src = "./js"></script>')
+// })
 
 app.listen(80, () => {
 	console.log("App listening")
 })
 
-app.get("/testing_websocket", (req, res) => {
-	res.redirect("ws://localhost:1453")
-})
+// app.get("/testing_websocket", (req, res) => {
+// 	res.redirect("ws://localhost:1453")
+// })

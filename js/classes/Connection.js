@@ -9,7 +9,7 @@ class Connection {
 		this.messages = new Array()
 		this.listener = new WebSocket(this.url,headers=headers)
 		this.listener.onclose = this.onclose
-		this.listener.onmessage = (e,message) => this.onmessage(e,message)
+		this.listener.onmessage = (e) => this.onmessage(e)
 		this.listener.onopen = this.onopen
 	}
 	close() {
@@ -24,7 +24,6 @@ class Connection {
 	onmessage(e) {
 		console.log(e.data)
 		this.messages.push(e.data)
-		console.log(this.messages)
 	}
 	getMessages() {
 		const messages = this.messages

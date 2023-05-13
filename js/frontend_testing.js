@@ -62,7 +62,6 @@ let socket_communicator = {
 function handle_web_socket() {
 	socket_communicator.getMessages().then((messages) => {
 		messages.forEach((message) => {
-			console.log(message)
 			socket_communicator.onMessage(message)
 		})
 	})
