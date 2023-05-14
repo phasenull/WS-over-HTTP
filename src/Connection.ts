@@ -1,4 +1,5 @@
-const crypto = require("crypto")
+import {randomUUID} from "crypto"
+const CryptoJS = require("crypto-js");
 import WebSocket from "ws"
 class Connection {
 	uuid: string
@@ -7,10 +8,13 @@ class Connection {
 	listener: WebSocket | undefined
 	status: "closed" | "open" | undefined
 	constructor(url: string, headers: any) {
-		this.uuid = Math.floor(Math.random() * 1000) + crypto.randomUUID() + Math.floor(Math.random() * 1000)
+		// secure uuid generator using crypto-js
+		const time = Date.now().toString()
+		const uuid = time + url + randomUUID() + randomUUID() + (headers.secret || "")
+		const encrypted_uuid = CryptoJS.AES.encrypt(uuid, time).toString();
 		this.url = url
+		this.uuid = encrypted_uuid
 		this.messages = []
-		console.log(this.messages)
 		let new_ws
 		const ConnectionPromise = new Promise((resolve, reject) => {
 			new_ws = new WebSocket(this.url, (headers = headers))
@@ -41,7 +45,6 @@ class Connection {
 		this.send("closed")
 	}
 	onmessage(e: any) {
-		console.log(this.messages)
 		if (e && e.data){
 			console.log("message:",e.data)
 			this.messages.push(e.data)
