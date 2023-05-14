@@ -1,6 +1,5 @@
 const crypto = require("crypto")
 import WebSocket from "ws"
-const test_url = "ws://localhost:1453/" //wss://ws.postman-echo.com/raw"//""
 class Connection {
 	uuid: string
 	url: string
@@ -9,7 +8,7 @@ class Connection {
 	status: "closed" | "open" | undefined
 	constructor(url: string, headers: any) {
 		this.uuid = Math.floor(Math.random() * 1000) + crypto.randomUUID() + Math.floor(Math.random() * 1000)
-		this.url = test_url
+		this.url = url
 		this.messages = new Array()
 		let new_ws
 		const ConnectionPromise = new Promise((resolve, reject) => {
@@ -18,11 +17,16 @@ class Connection {
 			new_ws.addEventListener("close", this.onclose)
 			new_ws.addEventListener("open", this.onopen)
 			new_ws.addEventListener("message", this.onmessage)
+			new_ws.addEventListener("error", this.onerror)
 			this.status = "open"
 			resolve("OK")
 		}).catch((e) => {
 			this.close()
 		})
+	}
+	onerror(e: any) {
+		console.log(e)
+		this.close()
 	}
 	close() {
 		if (this.listener) {
