@@ -1,11 +1,11 @@
 const express = require("express")
-const Client = require("./Connection.js").Client
+import { Connection } from "./Connection"
 const app = express()
-const CONNECTIONS = {}
+const CONNECTIONS : Array<Connection> = new Array()
 
 app.get("/connect", (req, res) => {
 	// generate secret key with encryption
-	const new_connection = new Client(req.query.url,req.headers)
+	const new_connection = new Connection(req.query.url,req.headers)
 	CONNECTIONS[new_connection.uuid] = new_connection
 	// const key = crypto.subtle.generateKey({ name: "AES-GCM", length: 256 }, true, ["encrypt", "decrypt"])
 	// const iv = crypto.getRandomValues(new Uint8Array(12))
@@ -44,3 +44,5 @@ app.listen(80, () => {
 // app.get("/testing_websocket", (req, res) => {
 // 	res.redirect("ws://localhost:1453")
 // })
+
+export {app as WSOH}

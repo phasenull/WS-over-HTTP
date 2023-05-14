@@ -51,4 +51,4 @@ class Connection {
 	}
 }
 
-module.exports = { Client: Connection }
+export {Connection}
