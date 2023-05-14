@@ -3,6 +3,11 @@ crypto = require("crypto")
 WebSocket = require("ws")
 const test_url = "ws://localhost:1453/"//wss://ws.postman-echo.com/raw"//""
 class Connection {
+	uuid : string;
+	url : string
+	messages : Array<string>;
+	listener : WebSocket;
+	status : "closed" | "open"
 	constructor(url,headers) {
 		this.uuid = Math.floor(Math.random() * 1000) + crypto.randomUUID() + Math.floor(Math.random() * 1000)
 		this.url = test_url
@@ -34,7 +39,7 @@ class Connection {
 		return new Promise((resolve, reject) => {
 			try {
 				this.listener.send(message)
-				resolve()
+				resolve("OK")
 			} catch (e) {
 				reject(e)
 			}

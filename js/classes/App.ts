@@ -1,5 +1,5 @@
 const express = require("express")
-const Client = require("./classes/Connection.js").Client
+const Client = require("./Connection.js").Client
 const app = express()
 const CONNECTIONS = {}
 
