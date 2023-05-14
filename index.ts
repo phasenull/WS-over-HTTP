@@ -1,3 +1,3 @@
-import { WSOH } from "./js/classes/App";
-import { Connection } from "./js/classes/Connection";
+import { WSOH } from "./src/App";
+import { Connection } from "./src/Connection";
 export {WSOH, Connection}

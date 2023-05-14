@@ -1,9 +1,13 @@
 {
   "dependencies": {
     "express": "^4.18.2",
+    "ts-node": "^10.9.1",
     "ws": "^8.13.0"
   },
   "scripts": {
-    "start": "nodemon js/App.js"
+    "start": "nodemon src/App.ts"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.4"
   }
 }

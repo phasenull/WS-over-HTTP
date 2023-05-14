@@ -5,7 +5,7 @@ class Connection {
 	uuid: string
 	url: string
 	messages: Array<string>
-	listener: WebSocket
+	listener: WebSocket | undefined
 	status: "closed" | "open" | undefined
 	constructor(url: string, headers: any) {
 		this.uuid = Math.floor(Math.random() * 1000) + crypto.randomUUID() + Math.floor(Math.random() * 1000)
@@ -15,9 +15,9 @@ class Connection {
 		const ConnectionPromise = new Promise((resolve, reject) => {
 			new_ws = new WebSocket(this.url, (headers = headers))
 			this.listener = new_ws
-			new_ws.addEventListener("close",this.onclose)
-			new_ws.addEventListener("open",this.onopen)
-			new_ws.addEventListener("message",this.onmessage)
+			new_ws.addEventListener("close", this.onclose)
+			new_ws.addEventListener("open", this.onopen)
+			new_ws.addEventListener("message", this.onmessage)
 			this.status = "open"
 			resolve("OK")
 		}).catch((e) => {
@@ -25,7 +25,9 @@ class Connection {
 		})
 	}
 	close() {
-		this.listener.close()
+		if (this.listener) {
+			this.listener.close()
+		}
 		this.status = "closed"
 	}
 	onclose(e: any) {
@@ -45,7 +47,9 @@ class Connection {
 	send(message: string) {
 		return new Promise((resolve, reject) => {
 			try {
-				this.listener.send(message)
+				if (this.listener) {
+					this.listener.send(message)
+				}
 				resolve("OK")
 			} catch (e) {
 				reject(e)
