@@ -1,3 +1,3 @@
-const WSOH = require("./js/classes/App");
-const Connection = require("./js/classes/Connection");
+import { WSOH } from "./js/classes/App";
+import { Connection } from "./js/classes/Connection";
 export {WSOH, Connection}
