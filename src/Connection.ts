@@ -40,8 +40,9 @@ class Connection {
 		this.send("closed")
 	}
 	onmessage(e: any) {
+		console.log(this.messages)
 		if (e && e.data){
-			console.log(e.data)
+			console.log("message:",e.data)
 			this.messages.push(e.data)
 		}
 	}
