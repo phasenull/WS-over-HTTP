@@ -25,7 +25,7 @@ class Connection {
 		})
 	}
 	onerror(e: any) {
-		console.log(e)
+		console.log("Error")
 		this.close()
 	}
 	close() {
