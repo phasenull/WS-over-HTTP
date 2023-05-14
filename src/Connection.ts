@@ -3,13 +3,12 @@ import WebSocket from "ws"
 class Connection {
 	uuid: string
 	url: string
-	messages: Array<string>
+	messages: string[] = []
 	listener: WebSocket | undefined
 	status: "closed" | "open" | undefined
 	constructor(url: string, headers: any) {
 		this.uuid = Math.floor(Math.random() * 1000) + crypto.randomUUID() + Math.floor(Math.random() * 1000)
 		this.url = url
-		this.messages = []
 		console.log(this.messages)
 		let new_ws
 		const ConnectionPromise = new Promise((resolve, reject) => {
@@ -26,7 +25,7 @@ class Connection {
 		})
 	}
 	onerror(e: any) {
-		console.log("Error")
+		console.log("WS Error")
 		this.close()
 	}
 	close() {
@@ -37,12 +36,12 @@ class Connection {
 	}
 	onclose(e: any) {
 		this.status = "closed"
-		console.log("CLOSED")
+		console.log("WS Closed")
 		this.send("closed")
 	}
 	onmessage(e: any) {
-		console.log(this.messages)
-		if (e && e.data){
+		console.log("messages",this.messages)
+		if (e && e.data && this.messages){
 			console.log("message:",e.data)
 			this.messages.push(e.data)
 		}
