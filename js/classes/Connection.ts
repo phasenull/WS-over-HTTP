@@ -13,9 +13,9 @@ class Connection {
 		const new_ws = new WebSocket(this.url, (headers = headers))
 		this.messages = new Array()
 		this.listener = new_ws
-		new_ws.addEventListener("onclose",this.onclose)
-		new_ws.addEventListener("onopen",this.onopen)
-		new_ws.addEventListener("onmessage",this.onmessage)
+		new_ws.addEventListener("close",this.onclose)
+		new_ws.addEventListener("open",this.onopen)
+		new_ws.addEventListener("message",this.onmessage)
 		this.status = "open"
 	}
 	close() {
