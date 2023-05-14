@@ -10,13 +10,19 @@ class Connection {
 	constructor(url: string, headers: any) {
 		this.uuid = Math.floor(Math.random() * 1000) + crypto.randomUUID() + Math.floor(Math.random() * 1000)
 		this.url = test_url
-		const new_ws = new WebSocket(this.url, (headers = headers))
 		this.messages = new Array()
-		this.listener = new_ws
-		new_ws.addEventListener("close",this.onclose)
-		new_ws.addEventListener("open",this.onopen)
-		new_ws.addEventListener("message",this.onmessage)
-		this.status = "open"
+		let new_ws
+		const ConnectionPromise = new Promise((resolve, reject) => {
+			new_ws = new WebSocket(this.url, (headers = headers))
+			this.listener = new_ws
+			new_ws.addEventListener("close",this.onclose)
+			new_ws.addEventListener("open",this.onopen)
+			new_ws.addEventListener("message",this.onmessage)
+			this.status = "open"
+			resolve("OK")
+		}).catch((e) => {
+			this.close()
+		})
 	}
 	close() {
 		this.listener.close()
