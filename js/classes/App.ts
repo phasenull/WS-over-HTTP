@@ -40,8 +40,8 @@ function constructor(port:number) {
 	// 	res.send('<div id = "main"></div> <script src = "./js"></script>')
 	// })
 
-	app.listen(80, () => {
-		console.log("App listening")
+	app.listen(port, () => {
+		console.log(`App listening on port ${port}`)
 	})
 	// app.get("/testing_websocket", (req, res) => {
 	// 	res.redirect("ws://localhost:1453")
