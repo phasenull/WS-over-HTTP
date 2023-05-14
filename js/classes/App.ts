@@ -1,30 +1,31 @@
 const express = require("express")
 import { Connection } from "./Connection"
 const app = express()
-const CONNECTIONS : Array<Connection> = new Array()
+const CONNECTIONS : Map<string,Connection> = new Map()
 
-app.get("/connect", (req, res) => {
+app.get("/connect", (req:any, res:any) => {
 	// generate secret key with encryption
 	const new_connection = new Connection(req.query.url,req.headers)
-	CONNECTIONS[new_connection.uuid] = new_connection
+	CONNECTIONS.set(new_connection.uuid,new_connection)
 	// const key = crypto.subtle.generateKey({ name: "AES-GCM", length: 256 }, true, ["encrypt", "decrypt"])
 	// const iv = crypto.getRandomValues(new Uint8Array(12))
 	res.send(new_connection.uuid)
 	// const encryptedData = crypto.subtle.encrypt( { name: "AES-GCM", iv: iv, }, key, new_connection.uuid );
 })
-app.get("/ws", (req, res) => {
+app.get("/ws", (req:any, res:any) => {
 	const uuid = req.query.uuid
 	if (uuid in CONNECTIONS) {
-		res.json(CONNECTIONS[uuid].getMessages())
+		res.json(CONNECTIONS.get(uuid)?.getMessages())
 	} else {
 		res.status(404).send("Not found")
 	}
 })
-app.post("/ws", (req, res) => {
+app.post("/ws", (req:any, res:any) => {
 	const uuid = req.query.uuid
 	const message = req.headers.message
-	if (uuid in CONNECTIONS) {
-		CONNECTIONS[uuid].send(message).then((e)=>{res.status(200).send("OK")})
+	const connection = CONNECTIONS.get(uuid)
+	if (connection) {
+		connection.send(message).then((e:any)=>{res.status(200).send("OK")})
 	} else {
 		res.status(404).send("Not found")
 	}
