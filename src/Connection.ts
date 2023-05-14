@@ -11,7 +11,7 @@ class Connection {
 		// secure uuid generator using crypto-js
 		const time = Date.now().toString()
 		const uuid = time + url + randomUUID() + randomUUID() + (headers.secret || "")
-		const encrypted_uuid = CryptoJS.AES.encrypt(CryptoJS.AES.encrypt(uuid, time).toString(),uuid);
+		const encrypted_uuid = CryptoJS.AES.encrypt(CryptoJS.AES.encrypt(uuid, time).toString(),uuid).toString();
 		this.url = url
 		this.uuid = encrypted_uuid
 		this.messages = []
