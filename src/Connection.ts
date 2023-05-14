@@ -3,21 +3,22 @@ import WebSocket from "ws"
 class Connection {
 	uuid: string
 	url: string
-	messages: string[] = []
+	messages: Array<string>
 	listener: WebSocket | undefined
 	status: "closed" | "open" | undefined
 	constructor(url: string, headers: any) {
 		this.uuid = Math.floor(Math.random() * 1000) + crypto.randomUUID() + Math.floor(Math.random() * 1000)
 		this.url = url
+		this.messages = []
 		console.log(this.messages)
 		let new_ws
 		const ConnectionPromise = new Promise((resolve, reject) => {
 			new_ws = new WebSocket(this.url, (headers = headers))
 			this.listener = new_ws
-			new_ws.addEventListener("close", this.onclose)
-			new_ws.addEventListener("open", this.onopen)
-			new_ws.addEventListener("message", this.onmessage)
-			new_ws.addEventListener("error", this.onerror)
+			new_ws.addEventListener("close", (e) => this.onclose(e))
+			new_ws.addEventListener("open", (e) => this.onopen(e))
+			new_ws.addEventListener("message", (e) => this.onmessage(e))
+			new_ws.addEventListener("error", (e) => this.onerror(e))
 			this.status = "open"
 			resolve("OK")
 		}).catch((e) => {
@@ -25,7 +26,7 @@ class Connection {
 		})
 	}
 	onerror(e: any) {
-		console.log("WS Error")
+		console.log("Error")
 		this.close()
 	}
 	close() {
@@ -36,18 +37,18 @@ class Connection {
 	}
 	onclose(e: any) {
 		this.status = "closed"
-		console.log("WS Closed")
+		console.log("CLOSED")
 		this.send("closed")
 	}
 	onmessage(e: any) {
-		console.log("messages",this.messages)
-		if (e && e.data && this.messages){
+		console.log(this.messages)
+		if (e && e.data){
 			console.log("message:",e.data)
 			this.messages.push(e.data)
 		}
 	}
 	getMessages() {
-		const messages = this.messages.copyWithin(0, this.messages.length)
+		const messages = this.messages
 		this.messages = []
 		return messages
 	}
