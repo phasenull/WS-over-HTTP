@@ -6,7 +6,7 @@ class Connection {
 	url: string
 	messages: Array<string>
 	listener: WebSocket
-	status: "closed" | "open"
+	status: "closed" | "open" | undefined
 	constructor(url: string, headers: any) {
 		this.uuid = Math.floor(Math.random() * 1000) + crypto.randomUUID() + Math.floor(Math.random() * 1000)
 		this.url = test_url
