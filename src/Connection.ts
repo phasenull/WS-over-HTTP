@@ -9,8 +9,8 @@ class Connection {
 	status: "closed" | "open" | undefined
 	constructor(url: string, headers: any) {
 		// secure uuid generator using crypto-js
-		const time = Date.now().toString()
-		const uuid = time + url + randomUUID() + randomUUID() + (headers.secret || "")
+		const time = (Date.now()*Math.random()*1000).toString()
+		const uuid = time + url + randomUUID() + randomUUID()
 		const encrypted_uuid = CryptoJS.AES.encrypt(CryptoJS.AES.encrypt(uuid, time).toString(),uuid).toString();
 		this.url = url
 		this.uuid = encrypted_uuid
