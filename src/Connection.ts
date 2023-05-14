@@ -48,7 +48,7 @@ class Connection {
 		}
 	}
 	getMessages() {
-		const messages = this.messages
+		const messages = this.messages.copyWithin(0, this.messages.length)
 		this.messages = []
 		return messages
 	}
