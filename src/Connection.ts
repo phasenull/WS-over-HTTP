@@ -10,6 +10,7 @@ class Connection {
 		this.uuid = Math.floor(Math.random() * 1000) + crypto.randomUUID() + Math.floor(Math.random() * 1000)
 		this.url = url
 		this.messages = []
+		console.log(this.messages)
 		let new_ws
 		const ConnectionPromise = new Promise((resolve, reject) => {
 			new_ws = new WebSocket(this.url, (headers = headers))
